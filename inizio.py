@@ -36,4 +36,8 @@ a = 8
 stampa_val(89)
 stampa_val(a) #in questo caso mi prende come argomento la variabile globale a
 
-  
+#funzione per calcolare l'area di un rettangolo
+def area_rett (b,h):
+    area = b*h
+    print(area)
+area_rett(5,4)

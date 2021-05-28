@@ -41,3 +41,45 @@ def area_rett (b,h):
     area = b*h
     print(area)
 area_rett(5,4)
+
+#sintassi condizionale
+a = 0.5
+#se a è maggiore di 2 
+if a> 2:
+  print ('maggiore')
+#altrimenti...
+else:
+  print('minore')
+  
+#funzione per stabilire se un numero è pari o dispari
+def num_pari (n):
+  #se il risultato della divisione per 2 da resto 0... (== uguaglianza; = assegnazione)
+  if n%2==0:
+    print ('Il numero' + str(n) + 'è pari')
+  else:
+    print ('il numero' +str(n) + 'è dispari')
+ 
+num_pari(8)
+
+#operatori
+#MAGGIORE >
+#MINORE <
+#UGUALE ==
+#MAGGIORE UGUALE >=
+#DIVERSO !=
+
+#operatori booleani, AND OR NOT
+#funzione che mi dice se il numero che inserisco è compreso tra due valori
+def zeroDieci (n):
+  if n>=0 and n<=10:
+    print ('Il numero ' +str(n)+ ' è compreso tra 0 e 10')
+  else:
+    print ('Il numero ' +str(n)+ ' non è compreso tra 0 e 10')
+    
+zeroDieci(6)
+zeroDieci(11)
+zeroDieci(10)
+  
+  
+  
+  

@@ -79,7 +79,19 @@ def zeroDieci (n):
 zeroDieci(6)
 zeroDieci(11)
 zeroDieci(10)
-  
-  
+
+
+#funzione che mi dice se un numero è maggiore di un altro 
+def maggiore (n, m):
+    if n > m:
+        return ('Il numero ' + str(n) + ' è maggiore di ' + str(m))
+    elif n==0:
+        return ('Il numero ' + str(m) + ' è uguale a ' + str(n))
+    else:
+        return ('Il numero ' + str(m) + ' è maggiore di ' + str(n))
+print(maggiore(8,6))
+
+
+
   
   

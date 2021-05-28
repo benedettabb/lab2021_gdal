@@ -140,4 +140,26 @@ print(type(lista))
 #non è una lista ma un range e parte da 0
 print(list(lista))
 #lo trasformo in lista
-  
+
+#funzione che conta quante volte un valore è presente nella lista
+#quante volte n compare nella lista lst?
+def count (lst, n):
+    #creo un contatore vuoto 
+    cont = 0
+    #per ogni numero nella lista
+    for num in lst:
+        #se il numero è uguale all'argomento n
+        if num == n:
+            #aggiungi 1 al contatore
+            cont = cont + 1
+            #poi lui riparte dal ciclo for, vede il numero successivo, se è uguale
+            #aggiunge 1
+        else:
+            pass #si mette per renderlo più leggibile, ma non serve. se num non è uguale
+                 # a n salta comunque
+        
+count (lista, 8)
+
+
+
+

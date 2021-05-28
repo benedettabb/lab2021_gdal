@@ -92,6 +92,43 @@ def maggiore (n, m):
 print(maggiore(8,6))
 
 
+#---CONTO ALLA ROVESCIA con funzione dentro la funzione
+def contoRovescia (a):
+    #se a è uguale a zero stampa la stringa
+    if a ==0:
+        print('Il conto alla rovescia è finito')
+    #se a è diverso da 0 stampa a e poi richiama la funzione con a-1
+    else:
+        print(a)
+        contoRovescia (a-1)
+        #richiamo una funzione all'interno della funzione. poi a-1 diviene
+        #il nuovo argomento della funzione
+        
+contoRovescia(10)
 
-  
+#---CONTO ALLA ROVESCIA con WHILE
+def cicloWhile (a):
+    #finché a è maggiore di 0
+    while a>0:
+        print(a)
+        a =a-1
+    print('Il conto alla rovescia è finito')
+    #finchè n non è più maggiore di 0 --> il ciclo while si interrompe
+
+
+#CICLO INFINITO ---> i loop infiniti si bloccano con Ctrl+C
+def cicloInfinito (a):
+    while a>0:
+        print(a)
+        a =a+1
+    print('Il conto alla rovescia è finito')
+cicloInfinito (3)
+
+
+#listaaa
+a = [5,3,2,1,3,4,4,9]
+print(a)
+#lista di listee
+b = [4,3,1,['d',2,3,'q','p'],a]
+print(b)
   

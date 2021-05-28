@@ -131,4 +131,13 @@ print(a)
 #lista di listee
 b = [4,3,1,['d',2,3,'q','p'],a]
 print(b)
+print(b[0])
+
+
+#creo una lista in modo rapido
+lista = range(11)
+print(type(lista))
+#non è una lista ma un range e parte da 0
+print(list(lista))
+#lo trasformo in lista
   

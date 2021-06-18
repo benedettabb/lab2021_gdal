@@ -31,10 +31,33 @@ def sample (csv_file, raster):
     srs.ImportFromEPSG(32632) #assegno l'EPSG:32632 UTM 32N come sistema di riferimento
     layer = data_source.CreateLayer(name_shape,srs,ogr.wkbPoint) #creo il layer definenedo: nome, sistema di riferimento e tipologia di geometria (wkbPoint)
 
-
-    #creo il layer definenedo: nome, sistema di riferimento e tipologia di geometria (wkbPoint)
-    layer = data_source.CreateLayer(name_shape,srs,ogr.wkbPoint) 
-
+    #definisco i campi
+    field_reg = ogr.FieldDefn ('COD_REG', ogr.OFTInteger)
+    layer.CreateField (field_reg)
+    field_cm = ogr.FieldDefn ('COD_CM', ogr.OFTInteger)
+    layer.CreateField (field_cm)
+    field_pro = ogr.FieldDefn ('COD_PRO', ogr.OFTInteger)
+    layer.CreateField (field_pro)
+    field_com = ogr.FieldDefn ('PRO_COM', ogr.OFTInteger)
+    layer.CreateField (field_com)
+    field_comune= ogr.FieldDefn ('COMUNE', ogr.OFTString)
+    field_comune.SetWidth (100)
+    layer.CreateField(field_comune)
+    field_nome_ted= ogr.FieldDefn ('NOME_TED', ogr.OFTString)
+    field_nome_ted.SetWidth (100)
+    layer.CreateField(field_nome_ted)
+    field_flag_cm = ogr.FieldDefn ('FLAG_CM', ogr.OFTInteger)
+    layer.CreateField (field_flag_cm)
+    field_shape_leng = ogr.FieldDefn ('SHAPE_Leng', ogr.OFTReal)
+    layer.CreateField (field_shape_leng)
+    field_shape_area = ogr.FieldDefn ('SHAPE_Area', ogr.OFTReal)
+    layer.CreateField (field_shape_area)
+    field_xcoord = ogr.FieldDefn ('xcoord', ogr.OFTReal)
+    layer.CreateField (field_xcoord)
+    field_ycoord = ogr.FieldDefn ('ycoord', ogr.OFTReal)
+    layer.CreateField (field_ycoord)
+    field_quota = ogr.FieldDefn ('quota', ogr.OFTReal)
+    layer.CreateField (field_quota)
     
     
     fields = ['COD_REG', 'COD_CM', 'COD_PRO', 'PRO_COM', 'COMUNE', 'NOME_TED', 'FLAG_CM', 'SHAPE_Leng', 'SHAPE_Area', 'xcoord', 'ycoord','quota']
@@ -49,34 +72,6 @@ def sample (csv_file, raster):
         quota = band.ReadAsArray(px,py, 1, 1)
         q = float(quota)
         #print(q)
-        
-        #definisco i campi
-        field_reg = ogr.FieldDefn ('COD_REG', ogr.OFTInteger)
-        layer.CreateField (field_reg)
-        field_cm = ogr.FieldDefn ('COD_CM', ogr.OFTInteger)
-        layer.CreateField (field_cm)
-        field_pro = ogr.FieldDefn ('COD_PRO', ogr.OFTInteger)
-        layer.CreateField (field_pro)
-        field_com = ogr.FieldDefn ('PRO_COM', ogr.OFTInteger)
-        layer.CreateField (field_com)
-        field_comune= ogr.FieldDefn ('COMUNE', ogr.OFTString)
-        field_comune.SetWidth (100)
-        layer.CreateField(field_comune)
-        field_nome_ted= ogr.FieldDefn ('NOME_TED', ogr.OFTString)
-        field_nome_ted.SetWidth (100)
-        layer.CreateField(field_nome_ted)
-        field_flag_cm = ogr.FieldDefn ('FLAG_CM', ogr.OFTInteger)
-        layer.CreateField (field_flag_cm)
-        field_shape_leng = ogr.FieldDefn ('SHAPE_Leng', ogr.OFTReal)
-        layer.CreateField (field_shape_leng)
-        field_shape_area = ogr.FieldDefn ('SHAPE_Area', ogr.OFTReal)
-        layer.CreateField (field_shape_area)
-        field_xcoord = ogr.FieldDefn ('xcoord', ogr.OFTReal)
-        layer.CreateField (field_xcoord)
-        field_ycoord = ogr.FieldDefn ('ycoord', ogr.OFTReal)
-        layer.CreateField (field_ycoord)
-        field_quota = ogr.FieldDefn ('quota', ogr.OFTReal)
-        layer.CreateField (field_quota)
         
         feature = ogr.Feature (layer.GetLayerDefn())
         feature.SetField ('COD_REG', row['COD_REG'])
@@ -137,6 +132,5 @@ gdal.Warp('dem_lombardia_100m_WGS.tif', 'dem_lombardia_100m_ED32N.tif', dstSRS =
 for csv_file in glob.glob ('*csv'):
     sample (csv_file, 'dem_lombardia_100m_WGS.tif')
 print ('fatto?')
-
 
 

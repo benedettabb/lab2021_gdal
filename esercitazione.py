@@ -7,10 +7,12 @@ import csv
 import numpy
 
 os.chdir('C:/Users/UTENTE/Desktop/UNIBO/GEOGRAFIA/II ANNO/LAB/esercitazione_python/esercitazione')
+
 def sample (csv_file, raster):
     #APRO IL CSV
     csvfile_read = open (csv_file, 'r')
     reader = csv.DictReader (csvfile_read, delimiter = ',')
+    
     
     #APRO IL RASTER
     dem = gdal.Open (raster)
@@ -20,7 +22,20 @@ def sample (csv_file, raster):
     band = dem.GetRasterBand(1)
     #print(type(band))
     
+    #NUOVI SHAPE FILE
+    #assegno il nome a partire dal csv
+    name_shape = csv_file.split ('.')[0] + '_quota.shp' #il nome del nuovo shape sarà come quello precedente + quota
+    driver = ogr.GetDriverByName('ESRI Shapefile') #preparo il driver
+    data_source = driver.CreateDataSource(name_shape) #creo lo shapefile
+    srs = osr.SpatialReference() #creo il sistema di riferimento
+    srs.ImportFromEPSG(32632) #assegno l'EPSG:32632 UTM 32N come sistema di riferimento
+    layer = data_source.CreateLayer(name_shape,srs,ogr.wkbPoint) #creo il layer definenedo: nome, sistema di riferimento e tipologia di geometria (wkbPoint)
 
+
+    #creo il layer definenedo: nome, sistema di riferimento e tipologia di geometria (wkbPoint)
+    layer = data_source.CreateLayer(name_shape,srs,ogr.wkbPoint) 
+   
+    
     fields = ['COD_REG', 'COD_CM', 'COD_PRO', 'PRO_COM', 'COMUNE', 'NOME_TED', 'FLAG_CM', 'SHAPE_Leng', 'SHAPE_Area', 'xcoord', 'ycoord','quota']
     lista = []
 
@@ -33,67 +48,35 @@ def sample (csv_file, raster):
         quota = band.ReadAsArray(px,py, 1, 1)
         q = float(quota)
         #print(q)
-
-        list_row.append(row['COD_REG'])
-        list_row.append(row ['COD_CM'])
-        list_row.append(row ['COD_PRO'])
-        list_row.append(row ['PRO_COM'])
-        list_row.append(row ['COMUNE'])
-        list_row.append(row ['NOME_TED'])
-        list_row.append(row ['FLAG_CM'])
-        list_row.append(row ['SHAPE_Leng'])
-        list_row.append(row ['SHAPE_Area'])
-        list_row.append(row ['xcoord'])
-        list_row.append(row ['ycoord'])
-        list_row.append (q)
-        lista.append(list_row)
         
-    name = csv_file.split('.')[0] + '_quota.csv'
-    new_csv = open (name,'w')
-    writer = csv.writer (new_csv)
-    writer.writerow (fields)
-    writer.writerows (lista)
-
-    #NUOVI SHAPE FILE
-    driver = ogr.GetDriverByName ('ESRI Shapefile') #definisco il driver
-    name_shape = csv_file.split ('.')[0] + '_quota.csv' #il nome del nuovo shape sarà come quello precedente + quota
-    data_source = driver.CreateDataSource (name_shape) #creo il file (data_source) dandogli il nuovo nome
-
-    #definisco il sistema di riferimento
-    srs = osr.SpatialReference()
-    srs.ImportFromEPSG (32632)
-
-    #creo il layer
-    layer = data_source.CreateLayer (name_shape, srs, ogr.wkbPoint)
-    #definisco i campi
-    field_reg = ogr.FieldDefn ('COD_REG', ogr.OFTInteger)
-    layer.CreateField (field_reg)
-    field_cm = ogr.FieldDefn ('COD_CM', ogr.OFTInteger)
-    layer.CreateField (field_cm)
-    field_pro = ogr.FieldDefn ('COD_PRO', ogr.OFTInteger)
-    layer.CreateField (field_pro)
-    field_com = ogr.FieldDefn ('PRO_COM', ogr.OFTInteger)
-    layer.CreateField (field_com)
-    field_comune= ogr.FieldDefn ('COMUNE', ogr.OFTString)
-    field_comune.SetWidth (100)
-    layer.CreateField(field_comune)
-    field_nome_ted= ogr.FieldDefn ('NOME_TED', ogr.OFTString)
-    field_nome_ted.SetWidth (100)
-    layer.CreateField(field_nome_ted)
-    field_flag_cm = ogr.FieldDefn ('FLAG_CM', ogr.OFTInteger)
-    layer.CreateField (field_flag_cm)
-    field_shape_leng = ogr.FieldDefn ('SHAPE_Leng', ogr.OFTReal)
-    layer.CreateField (field_shape_leng)
-    field_shape_area = ogr.FieldDefn ('SHAPE_Area', ogr.OFTReal)
-    layer.CreateField (field_shape_area)
-    field_xcoord = ogr.FieldDefn ('xcoord', ogr.OFTReal)
-    layer.CreateField (field_xcoord)
-    field_ycoord = ogr.FieldDefn ('ycoord', ogr.OFTReal)
-    layer.CreateField (field_ycoord)
-    field_quota = ogr.FieldDefn ('quota', ogr.OFTReal)
-    layer.CreateField (field_quota)
-
-    for row in reader:
+        #definisco i campi
+        field_reg = ogr.FieldDefn ('COD_REG', ogr.OFTInteger)
+        layer.CreateField (field_reg)
+        field_cm = ogr.FieldDefn ('COD_CM', ogr.OFTInteger)
+        layer.CreateField (field_cm)
+        field_pro = ogr.FieldDefn ('COD_PRO', ogr.OFTInteger)
+        layer.CreateField (field_pro)
+        field_com = ogr.FieldDefn ('PRO_COM', ogr.OFTInteger)
+        layer.CreateField (field_com)
+        field_comune= ogr.FieldDefn ('COMUNE', ogr.OFTString)
+        field_comune.SetWidth (100)
+        layer.CreateField(field_comune)
+        field_nome_ted= ogr.FieldDefn ('NOME_TED', ogr.OFTString)
+        field_nome_ted.SetWidth (100)
+        layer.CreateField(field_nome_ted)
+        field_flag_cm = ogr.FieldDefn ('FLAG_CM', ogr.OFTInteger)
+        layer.CreateField (field_flag_cm)
+        field_shape_leng = ogr.FieldDefn ('SHAPE_Leng', ogr.OFTReal)
+        layer.CreateField (field_shape_leng)
+        field_shape_area = ogr.FieldDefn ('SHAPE_Area', ogr.OFTReal)
+        layer.CreateField (field_shape_area)
+        field_xcoord = ogr.FieldDefn ('xcoord', ogr.OFTReal)
+        layer.CreateField (field_xcoord)
+        field_ycoord = ogr.FieldDefn ('ycoord', ogr.OFTReal)
+        layer.CreateField (field_ycoord)
+        field_quota = ogr.FieldDefn ('quota', ogr.OFTReal)
+        layer.CreateField (field_quota)
+        
         feature = ogr.Feature (layer.GetLayerDefn())
         feature.SetField ('COD_REG', row['COD_REG'])
         feature.SetField ('COD_CM', row['COD_CM'])
@@ -109,7 +92,7 @@ def sample (csv_file, raster):
         feature.SetField ("quota", q)
         
         wkt = "POINT (%f %f)" % (float(row['xcoord']), float (row['ycoord']))
-        print(wkt)
+        #print(wkt)
         #creo la geometria dal wkt
         point = ogr.CreateGeometryFromWkt (wkt)
     
@@ -117,18 +100,42 @@ def sample (csv_file, raster):
         feature.SetGeometry (point)
         #inserisco la geometria nel layer
         layer.CreateFeature(feature)
+    
+
+        list_row.append(row['COD_REG'])
+        list_row.append(row ['COD_CM'])
+        list_row.append(row ['COD_PRO'])
+        list_row.append(row ['PRO_COM'])
+        list_row.append(row ['COMUNE'])
+        list_row.append(row ['NOME_TED'])
+        list_row.append(row ['FLAG_CM'])
+        list_row.append(row ['SHAPE_Leng'])
+        list_row.append(row ['SHAPE_Area'])
+        list_row.append(row ['xcoord'])
+        list_row.append(row ['ycoord'])
+        list_row.append (q)
+        lista.append(list_row)
+        
         #chiudo la feature
         feature = None
+        
+    name = csv_file.split('.')[0] + '_quota.csv'
+    new_csv = open (name,'w')
+    writer = csv.writer (new_csv)
+    writer.writerow (fields)
+    writer.writerows (lista)
     
     #chiudo il data source
     data_source = None
-    
     csvfile_read.close()
     new_csv.close()
 
-gdal.Warp('dem_lombardia_100m_WGS.tif', 'dem_lombardia_100m_ED32N.tif', dstSRS = 'EPSG:32632')
+#gdal.Warp('dem_lombardia_100m_WGS.tif', 'dem_lombardia_100m_ED32N.tif', dstSRS = 'EPSG:32632')
 
 
 for csv_file in glob.glob ('*csv'):
     sample (csv_file, 'dem_lombardia_100m_WGS.tif')
 print ('fatto?')
+
+
+

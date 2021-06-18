@@ -34,7 +34,8 @@ def sample (csv_file, raster):
 
     #creo il layer definenedo: nome, sistema di riferimento e tipologia di geometria (wkbPoint)
     layer = data_source.CreateLayer(name_shape,srs,ogr.wkbPoint) 
-   
+
+    
     
     fields = ['COD_REG', 'COD_CM', 'COD_PRO', 'PRO_COM', 'COMUNE', 'NOME_TED', 'FLAG_CM', 'SHAPE_Leng', 'SHAPE_Area', 'xcoord', 'ycoord','quota']
     lista = []
@@ -130,7 +131,7 @@ def sample (csv_file, raster):
     csvfile_read.close()
     new_csv.close()
 
-#gdal.Warp('dem_lombardia_100m_WGS.tif', 'dem_lombardia_100m_ED32N.tif', dstSRS = 'EPSG:32632')
+gdal.Warp('dem_lombardia_100m_WGS.tif', 'dem_lombardia_100m_ED32N.tif', dstSRS = 'EPSG:32632')
 
 
 for csv_file in glob.glob ('*csv'):
